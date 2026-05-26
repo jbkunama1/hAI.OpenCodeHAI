@@ -199,6 +199,7 @@ API Key:   (beliebig, z.B. opencode-local)
 | ❌ TUI startet nicht | `docker exec -it -e TERM=xterm-256color opencode opencode` |
 | ❌ API-Key-Fehler | `config.json` prüfen, Container neu starten |
 | ❌ 9Router findet Endpoint nicht | URL mit `curl http://<ip>:4096/v1` testen |
+| ❌ DNS-Fehler (EAI_AGAIN) | `dns: [8.8.8.8, 1.1.1.1]` in docker-compose.yml (Tailscale-Workaround) |
 
 ---
 

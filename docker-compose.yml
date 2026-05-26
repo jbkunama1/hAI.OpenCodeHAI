@@ -13,53 +13,51 @@ services:
     container_name: opencode
     working_dir: /workspace
     ports:
-      # 🌐 Web-UI & API-Endpoint
       - "4096:4096"
+    dns:
+      # 🔧 Explizite DNS-Server (Tailscale-Workaround)
+      - 8.8.8.8
+      - 1.1.1.1
     volumes:
-      # 📂 Projektordner (persistent)
       - opencode_projects:/workspace
-      # ⚙️ OpenCode Konfiguration (persistent)
       - opencode_config:/root/.config/opencode
     environment:
-      # 🔑 API-Keys
       - OPENAI_API_KEY=${OPENAI_API_KEY:-}
       - OPENAI_BASE_URL=${OPENAI_BASE_URL:-}
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
       - GOOGLE_API_KEY=${GOOGLE_API_KEY:-}
       - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY:-}
       - OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-}
-      # 🤖 Standard-Modell
       - OPENCODE_MODEL=${OPENCODE_MODEL:-deepseek/deepseek-chat}
-      # 🖥️ Terminal
       - TERM=xterm-256color
       - COLORTERM=truecolor
     stdin_open: true
     tty: true
     restart: unless-stopped
     command: >-
-      sh -c "
-        echo '🚀 Installing OpenCode...' &&
+      sh -c '
+        echo "🚀 Installing OpenCode..." &&
         npm install -g opencode-ai@latest --quiet &&
-        echo '' &&
-        echo '╔════════════════════════════════════════════════╗' &&
-        echo '║  🤖 hAI.OpenCodeHAI - Ready!                  ║' &&
-        echo '╠════════════════════════════════════════════════╣' &&
-        echo '║  🌐 Browser-UI:                                ║' &&
-        echo '║     http://<server-ip>:4096                    ║' &&
-        echo '║                                                ║' &&
-        echo '║  💻 Konsole (Alias auf dem Host):              ║' &&
-        echo '║     alias opencode=\"docker exec -it opencode opencode\" ║' &&
-        echo '║     → dann einfach: opencode                   ║' &&
-        echo '║                                                ║' &&
-        echo '║  🔌 9Router API-Endpoint:                      ║' &&
-        echo '║     http://<server-ip>:4096/v1                 ║' &&
-        echo '║                                                ║' &&
-        echo '║  🐚 In Container:                              ║' &&
-        echo '║     docker exec -it opencode opencode          ║' &&
-        echo '╚════════════════════════════════════════════════╝' &&
-        echo '' &&
+        echo "" &&
+        echo "╔════════════════════════════════════════════════╗" &&
+        echo "║  🤖 hAI.OpenCodeHAI - Ready!                  ║" &&
+        echo "╠════════════════════════════════════════════════╣" &&
+        echo "║  🌐 Browser-UI:                                ║" &&
+        echo "║     http://<server-ip>:4096                    ║" &&
+        echo "║                                                ║" &&
+        echo "║  💻 Konsole (Alias auf dem Host):              ║" &&
+        echo "║     alias opencode=docker-exec-it-opencode     ║" &&
+        echo "║     → dann einfach: opencode                   ║" &&
+        echo "║                                                ║" &&
+        echo "║  🔌 9Router API-Endpoint:                      ║" &&
+        echo "║     http://<server-ip>:4096/v1                 ║" &&
+        echo "║                                                ║" &&
+        echo "║  🐚 In Container:                              ║" &&
+        echo "║     docker exec -it opencode opencode          ║" &&
+        echo "╚════════════════════════════════════════════════╝" &&
+        echo "" &&
         opencode serve --hostname 0.0.0.0 --port 4096
-      "
+      '
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
 
