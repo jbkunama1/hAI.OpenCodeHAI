@@ -22,7 +22,7 @@
     @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
     h1 { font-size: 2.8rem; font-weight: 700; color: #fff; margin-bottom: 12px; }
     h1 span { color: var(--accent); }
-    .tagline { font-size: 1.1rem; color: var(--muted); max-width: 600px; margin: 0 auto 24px; }
+    .tagline { font-size: 1.1rem; color: var(--muted); max-width: 680px; margin: 0 auto 24px; }
     .badges { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 28px; }
     .badges img { height: 26px; }
     .btn-group { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
@@ -34,14 +34,30 @@
     main { max-width: 960px; margin: 0 auto; padding: 40px 20px; }
     .section-title { font-size: 1.6rem; font-weight: 700; color: #fff; margin: 48px 0 20px; display: flex; align-items: center; gap: 12px; }
     .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+    .goals { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+    .goal {
+      border-radius: 12px; padding: 28px; text-align: center;
+      transition: transform 0.2s;
+    }
+    .goal:hover { transform: translateY(-4px); }
+    .goal-1 { background: linear-gradient(135deg, #1a2636, #0d1a2a); border: 1px solid var(--accent); }
+    .goal-2 { background: linear-gradient(135deg, #1a2620, #0d1a10); border: 1px solid var(--green); }
+    .goal-3 { background: linear-gradient(135deg, #2a1a36, #1a0d2a); border: 1px solid var(--purple); }
+    .goal-icon { font-size: 3rem; margin-bottom: 12px; }
+    .goal h3 { font-size: 1.2rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    .goal p { font-size: 0.9rem; color: var(--muted); margin-bottom: 12px; }
+    .goal code { font-family: monospace; font-size: 0.85rem; padding: 4px 8px; border-radius: 4px; }
+    .goal-1 code { background: rgba(88,166,255,0.15); color: var(--accent); }
+    .goal-2 code { background: rgba(63,185,80,0.15); color: var(--green); }
+    .goal-3 code { background: rgba(210,168,255,0.15); color: var(--purple); }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
     .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: border-color 0.2s, transform 0.2s; }
     .card:hover { border-color: var(--accent); transform: translateY(-3px); }
     .card-icon { font-size: 2rem; margin-bottom: 12px; }
     .card h3 { font-size: 1rem; font-weight: 600; color: #fff; margin-bottom: 8px; }
     .card p { font-size: 0.9rem; color: var(--muted); }
     pre { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin: 12px 0; }
-    code { font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 0.88rem; color: var(--green); }
+    code.block { font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 0.88rem; color: var(--green); }
     .step { display: flex; gap: 16px; margin-bottom: 20px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
     .step-num { background: var(--accent); color: #0d1117; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1rem; flex-shrink: 0; }
     .step-content h4 { color: #fff; margin-bottom: 8px; }
@@ -58,14 +74,14 @@
 <header>
   <span class="hero-emoji">🤖</span>
   <h1>hAI.<span>OpenCode</span>HAI</h1>
-  <p class="tagline">OpenCode AI Coding Agent als Docker/Portainer-Stack auf DietPi & Debian – kostenlos, quelloffen, modellflexibel.</p>
+  <p class="tagline">OpenCode AI Coding Agent als Docker/Portainer-Stack –<br>nutzbar im <strong>Browser</strong>, auf der <strong>Konsole</strong> und als <strong>Remote-API für 9Router</strong>.</p>
   <div class="badges">
     <img src="https://img.shields.io/github/stars/jbkunama1/hAI.OpenCodeHAI?style=for-the-badge&color=yellow" alt="Stars">
     <img src="https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge" alt="MIT">
     <img src="https://img.shields.io/badge/Docker-ready-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
     <img src="https://img.shields.io/badge/Portainer-Stack-13BEF9?style=for-the-badge&logo=portainer&logoColor=white" alt="Portainer">
+    <img src="https://img.shields.io/badge/Port-4096-purple?style=for-the-badge" alt="Port 4096">
     <img src="https://img.shields.io/badge/DietPi-kompatibel-C7A228?style=for-the-badge" alt="DietPi">
-    <img src="https://img.shields.io/badge/Open%20Source-%E2%9D%A4-red?style=for-the-badge" alt="Open Source">
   </div>
   <div class="btn-group">
     <a class="btn btn-primary" href="https://github.com/jbkunama1/hAI.OpenCodeHAI" target="_blank">📦 GitHub Repo</a>
@@ -74,34 +90,50 @@
   </div>
 </header>
 <main>
+
+  <div class="section-title">🎯 3 Nutzungsziele</div>
+  <div class="goals">
+    <div class="goal goal-1">
+      <div class="goal-icon">🌐</div>
+      <h3>Browser-UI</h3>
+      <p>OpenCode direkt im Browser nutzen – kein Terminal nötig.</p>
+      <code>http://&lt;server-ip&gt;:4096</code>
+    </div>
+    <div class="goal goal-2">
+      <div class="goal-icon">💻</div>
+      <h3>Konsole direkt</h3>
+      <p>Einfach <code>opencode</code> tippen – Alias erledigt den Rest.</p>
+      <code>alias opencode="docker exec..."</code>
+    </div>
+    <div class="goal goal-3">
+      <div class="goal-icon">🔌</div>
+      <h3>Remote-API für 9Router</h3>
+      <p>OpenCode als Provider in 9Router einbinden.</p>
+      <code>http://&lt;server-ip&gt;:4096/v1</code>
+    </div>
+  </div>
+
   <div class="section-title">✨ Features</div>
   <div class="cards">
-    <div class="card"><div class="card-icon">🐳</div><h3>Docker-Ready</h3><p>Sauberer Container, persistente Volumes, Portainer Stack – sofort einsatzbereit.</p></div>
-    <div class="card"><div class="card-icon">🆓</div><h3>Kostenlos nutzbar</h3><p>DeepSeek, Gemini Flash und Qwen bieten großzügige Free-Tiers – kein Abo nötig.</p></div>
-    <div class="card"><div class="card-icon">🔀</div><h3>Multi-Modell</h3><p>Claude, GPT, Gemini, DeepSeek, Qwen, Ollama – frei wählbar per ENV-Variable.</p></div>
-    <div class="card"><div class="card-icon">🍓</div><h3>DietPi optimiert</h3><p>Schlanker Footprint, perfekt für ARM-Server und ressourcenarme Umgebungen.</p></div>
-    <div class="card"><div class="card-icon">🔒</div><h3>Sicher</h3><p>API-Keys nur in .env, nie im Repository. .gitignore schützt sensible Daten.</p></div>
-    <div class="card"><div class="card-icon">🔄</div><h3>Auto-Update</h3><p>Watchtower-Label für automatische Container-Updates vorkonfiguriert.</p></div>
+    <div class="card"><div class="card-icon">🐳</div><h3>Docker-Ready</h3><p>Port 4096 freigegeben, Volumes persistent, Portainer Stack.</p></div>
+    <div class="card"><div class="card-icon">🆓</div><h3>Kostenlos</h3><p>DeepSeek, Gemini Flash, Qwen – alle mit Free-Tier.</p></div>
+    <div class="card"><div class="card-icon">🔀</div><h3>9Router Support</h3><p>Direkte Integration als API-Provider in 9Router.</p></div>
+    <div class="card"><div class="card-icon">🍓</div><h3>DietPi optimiert</h3><p>Schlanker Footprint für ARM-Server.</p></div>
+    <div class="card"><div class="card-icon">🔒</div><h3>Sicher</h3><p>API-Keys nur in .env, nie im Repository.</p></div>
+    <div class="card"><div class="card-icon">🔄</div><h3>Auto-Update</h3><p>Watchtower-Label vorkonfiguriert.</p></div>
   </div>
 
   <div class="section-title">🚀 Schnellstart</div>
-  <div class="step"><div class="step-num">1</div><div class="step-content"><h4>Repo klonen</h4><pre><code>git clone https://github.com/jbkunama1/hAI.OpenCodeHAI.git
-cd hAI.OpenCodeHAI</code></pre></div></div>
-  <div class="step"><div class="step-num">2</div><div class="step-content"><h4>.env anlegen</h4><pre><code>cp .env.example .env
-# DEEPSEEK_API_KEY=sk-...  eintragen
-# OPENCODE_MODEL=deepseek/deepseek-chat</code></pre></div></div>
-  <div class="step"><div class="step-num">3</div><div class="step-content"><h4>Stack starten</h4><pre><code>docker compose up -d</code></pre></div></div>
-  <div class="step"><div class="step-num">4</div><div class="step-content"><h4>OpenCode nutzen</h4><pre><code>docker exec -it opencode sh
-cd /workspace && opencode</code></pre></div></div>
+  <div class="step"><div class="step-num">1</div><div class="step-content"><h4>Repo klonen</h4><pre><code class="block">git clone https://github.com/jbkunama1/hAI.OpenCodeHAI.git
+cd hAI.OpenCodeHAI && cp .env.example .env</code></pre></div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-content"><h4>.env befüllen</h4><pre><code class="block">OPENAI_BASE_URL=https://9router.example.com/v1
+OPENAI_API_KEY=sk-...
+OPENCODE_MODEL=deepseek/deepseek-chat</code></pre></div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-content"><h4>Stack starten</h4><pre><code class="block">docker compose up -d</code></pre></div></div>
+  <div class="step"><div class="step-num">4</div><div class="step-content"><h4>Browser öffnen</h4><pre><code class="block">http://&lt;server-ip&gt;:4096</code></pre></div></div>
+  <div class="step"><div class="step-num">5</div><div class="step-content"><h4>Konsolen-Alias setzen</h4><pre><code class="block">echo 'alias opencode="docker exec -it opencode opencode"' >> ~/.bashrc
+source ~/.bashrc</code></pre></div></div>
 
-  <div class="section-title">🆓 Kostenlose Modelle</div>
-  <table>
-    <tr><th>Modell</th><th>Provider</th><th>Kostenlos?</th><th>Qualität</th></tr>
-    <tr><td><code>deepseek/deepseek-chat</code></td><td>DeepSeek</td><td>✅ Free-Tier</td><td>⭐⭐⭐⭐</td></tr>
-    <tr><td><code>google/gemini-2.0-flash</code></td><td>Google AI</td><td>✅ Free-Tier</td><td>⭐⭐⭐⭐</td></tr>
-    <tr><td><code>qwen/qwen-2.5-coder-32b:free</code></td><td>OpenRouter</td><td>✅ Free-Tier</td><td>⭐⭐⭐⭐</td></tr>
-    <tr><td>Lokale Modelle via Ollama</td><td>Self-hosted</td><td>✅ Komplett kostenlos</td><td>⭐⭐⭐</td></tr>
-  </table>
 </main>
 <footer>
   <p>Made with ❤️ in Karlsruhe by <a href="https://github.com/jbkunama1" target="_blank">therealteacher</a> &nbsp;·&nbsp;

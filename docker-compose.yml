@@ -4,6 +4,7 @@ version: '3.8'
 # 🤖 hAI.OpenCodeHAI - OpenCode Docker/Portainer Stack
 # 🔗 https://github.com/jbkunama1/hAI.OpenCodeHAI
 # 📄 MIT License | therealteacher
+# 🎯 3 Ziele: Browser-UI | Konsole | 9Router API
 # ============================================================
 
 services:
@@ -11,36 +12,39 @@ services:
     image: node:22-alpine
     container_name: opencode
     working_dir: /workspace
+    ports:
+      # 🌐 Web-UI & API-Endpoint
+      - "4096:4096"
     volumes:
       # 📂 Projektordner (persistent)
       - opencode_projects:/workspace
       # ⚙️ OpenCode Konfiguration (persistent)
       - opencode_config:/root/.config/opencode
     environment:
-      # 🔑 API-Keys (in Portainer unter Environment Variables eintragen)
+      # 🔑 API-Keys
       - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - OPENAI_BASE_URL=${OPENAI_BASE_URL:-}
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
       - GOOGLE_API_KEY=${GOOGLE_API_KEY:-}
       - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY:-}
       - OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-}
-      # 🤖 Standard-Modell (Empfehlung: deepseek/deepseek-chat für Free-Tier)
+      # 🤖 Standard-Modell
       - OPENCODE_MODEL=${OPENCODE_MODEL:-deepseek/deepseek-chat}
-      # 🌐 Ollama (optional, für lokale Modelle)
-      - OLLAMA_HOST=${OLLAMA_HOST:-}
+      # 🖥️ Terminal
+      - TERM=xterm-256color
+      - COLORTERM=truecolor
     stdin_open: true
     tty: true
     restart: unless-stopped
-    # ⬇️ OpenCode beim Containerstart installieren
     command: >-
       sh -c "
         echo '🚀 Installing OpenCode...' &&
         npm install -g opencode-ai@latest --quiet &&
-        echo '✅ OpenCode ready! Enter container with: docker exec -it opencode sh' &&
-        echo '   Then run: cd /workspace && opencode' &&
-        tail -f /dev/null
+        echo '✅ OpenCode ready!' &&
+        echo '🌐 Starting server on port 4096...' &&
+        opencode serve --hostname 0.0.0.0 --port 4096
       "
     labels:
-      # 🔄 Watchtower Auto-Update (optional)
       - "com.centurylinklabs.watchtower.enable=true"
 
 volumes:
