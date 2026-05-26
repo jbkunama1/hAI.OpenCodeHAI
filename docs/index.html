@@ -35,10 +35,7 @@
     .section-title { font-size: 1.6rem; font-weight: 700; color: #fff; margin: 48px 0 20px; display: flex; align-items: center; gap: 12px; }
     .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
     .goals { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
-    .goal {
-      border-radius: 12px; padding: 28px; text-align: center;
-      transition: transform 0.2s;
-    }
+    .goal { border-radius: 12px; padding: 28px; text-align: center; transition: transform 0.2s; }
     .goal:hover { transform: translateY(-4px); }
     .goal-1 { background: linear-gradient(135deg, #1a2636, #0d1a2a); border: 1px solid var(--accent); }
     .goal-2 { background: linear-gradient(135deg, #1a2620, #0d1a10); border: 1px solid var(--green); }
@@ -50,6 +47,8 @@
     .goal-1 code { background: rgba(88,166,255,0.15); color: var(--accent); }
     .goal-2 code { background: rgba(63,185,80,0.15); color: var(--green); }
     .goal-3 code { background: rgba(210,168,255,0.15); color: var(--purple); }
+    .banner { background: #0d1117; border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin: 16px 0; overflow-x: auto; }
+    .banner pre { font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--green); line-height: 1.7; }
     .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
     .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: border-color 0.2s, transform 0.2s; }
     .card:hover { border-color: var(--accent); transform: translateY(-3px); }
@@ -61,10 +60,6 @@
     .step { display: flex; gap: 16px; margin-bottom: 20px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
     .step-num { background: var(--accent); color: #0d1117; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1rem; flex-shrink: 0; }
     .step-content h4 { color: #fff; margin-bottom: 8px; }
-    table { width: 100%; border-collapse: collapse; margin: 16px 0; }
-    th { background: var(--card); padding: 12px 16px; text-align: left; color: var(--accent); font-size: 0.85rem; border-bottom: 2px solid var(--border); }
-    td { padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-    tr:hover td { background: rgba(88,166,255,0.04); }
     footer { border-top: 1px solid var(--border); padding: 32px 20px; text-align: center; color: var(--muted); font-size: 0.9rem; }
     footer a { color: var(--accent); text-decoration: none; }
     footer a:hover { text-decoration: underline; }
@@ -74,7 +69,8 @@
 <header>
   <span class="hero-emoji">🤖</span>
   <h1>hAI.<span>OpenCode</span>HAI</h1>
-  <p class="tagline">OpenCode AI Coding Agent als Docker/Portainer-Stack –<br>nutzbar im <strong>Browser</strong>, auf der <strong>Konsole</strong> und als <strong>Remote-API für 9Router</strong>.</p>
+  <p class="tagline">OpenCode AI Coding Agent als Docker/Portainer-Stack –<br>
+  nutzbar im <strong>Browser</strong>, auf der <strong>Konsole</strong> und als <strong>Remote-API für 9Router</strong>.</p>
   <div class="badges">
     <img src="https://img.shields.io/github/stars/jbkunama1/hAI.OpenCodeHAI?style=for-the-badge&color=yellow" alt="Stars">
     <img src="https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge" alt="MIT">
@@ -96,13 +92,13 @@
     <div class="goal goal-1">
       <div class="goal-icon">🌐</div>
       <h3>Browser-UI</h3>
-      <p>OpenCode direkt im Browser nutzen – kein Terminal nötig.</p>
+      <p>OpenCode direkt im Browser – kein Terminal nötig.</p>
       <code>http://&lt;server-ip&gt;:4096</code>
     </div>
     <div class="goal goal-2">
       <div class="goal-icon">💻</div>
       <h3>Konsole direkt</h3>
-      <p>Einfach <code>opencode</code> tippen – Alias erledigt den Rest.</p>
+      <p>Einfach <code style="background:rgba(63,185,80,0.15);color:#3fb950">opencode</code> tippen – Alias erledigt den Rest.</p>
       <code>alias opencode="docker exec..."</code>
     </div>
     <div class="goal goal-3">
@@ -113,14 +109,28 @@
     </div>
   </div>
 
-  <div class="section-title">✨ Features</div>
-  <div class="cards">
-    <div class="card"><div class="card-icon">🐳</div><h3>Docker-Ready</h3><p>Port 4096 freigegeben, Volumes persistent, Portainer Stack.</p></div>
-    <div class="card"><div class="card-icon">🆓</div><h3>Kostenlos</h3><p>DeepSeek, Gemini Flash, Qwen – alle mit Free-Tier.</p></div>
-    <div class="card"><div class="card-icon">🔀</div><h3>9Router Support</h3><p>Direkte Integration als API-Provider in 9Router.</p></div>
-    <div class="card"><div class="card-icon">🍓</div><h3>DietPi optimiert</h3><p>Schlanker Footprint für ARM-Server.</p></div>
-    <div class="card"><div class="card-icon">🔒</div><h3>Sicher</h3><p>API-Keys nur in .env, nie im Repository.</p></div>
-    <div class="card"><div class="card-icon">🔄</div><h3>Auto-Update</h3><p>Watchtower-Label vorkonfiguriert.</p></div>
+  <div class="section-title">🖥️ Startup-Banner</div>
+  <p style="color:var(--muted);margin-bottom:12px">Nach <code style="background:var(--card);padding:2px 6px;border-radius:4px;color:var(--green)">docker compose up -d</code> siehst du in den Logs:</p>
+  <div class="banner">
+    <pre>🚀 Installing OpenCode...
+✅ OpenCode ready!
+
+╔════════════════════════════════════════════════╗
+║  🤖 hAI.OpenCodeHAI - Ready!                  ║
+╠════════════════════════════════════════════════╣
+║  🌐 Browser-UI:                                ║
+║     http://&lt;server-ip&gt;:4096                    ║
+║                                                ║
+║  💻 Konsole (Alias auf dem Host):              ║
+║     alias opencode="docker exec -it opencode opencode" ║
+║     → dann einfach: opencode                   ║
+║                                                ║
+║  🔌 9Router API-Endpoint:                      ║
+║     http://&lt;server-ip&gt;:4096/v1                 ║
+║                                                ║
+║  🐚 In Container:                              ║
+║     docker exec -it opencode opencode          ║
+╚════════════════════════════════════════════════╝</pre>
   </div>
 
   <div class="section-title">🚀 Schnellstart</div>
@@ -129,10 +139,20 @@ cd hAI.OpenCodeHAI && cp .env.example .env</code></pre></div></div>
   <div class="step"><div class="step-num">2</div><div class="step-content"><h4>.env befüllen</h4><pre><code class="block">OPENAI_BASE_URL=https://9router.example.com/v1
 OPENAI_API_KEY=sk-...
 OPENCODE_MODEL=deepseek/deepseek-chat</code></pre></div></div>
-  <div class="step"><div class="step-num">3</div><div class="step-content"><h4>Stack starten</h4><pre><code class="block">docker compose up -d</code></pre></div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-content"><h4>Stack starten</h4><pre><code class="block">docker compose up -d && docker logs -f opencode</code></pre></div></div>
   <div class="step"><div class="step-num">4</div><div class="step-content"><h4>Browser öffnen</h4><pre><code class="block">http://&lt;server-ip&gt;:4096</code></pre></div></div>
   <div class="step"><div class="step-num">5</div><div class="step-content"><h4>Konsolen-Alias setzen</h4><pre><code class="block">echo 'alias opencode="docker exec -it opencode opencode"' >> ~/.bashrc
 source ~/.bashrc</code></pre></div></div>
+
+  <div class="section-title">✨ Features</div>
+  <div class="cards">
+    <div class="card"><div class="card-icon">🐳</div><h3>Docker-Ready</h3><p>Port 4096, persistente Volumes, Portainer Stack.</p></div>
+    <div class="card"><div class="card-icon">🆓</div><h3>Kostenlos</h3><p>DeepSeek, Gemini Flash, Qwen – alle mit Free-Tier.</p></div>
+    <div class="card"><div class="card-icon">🔀</div><h3>9Router Support</h3><p>Direkte Integration als API-Provider in 9Router.</p></div>
+    <div class="card"><div class="card-icon">🍓</div><h3>DietPi optimiert</h3><p>Schlanker Footprint für ARM-Server.</p></div>
+    <div class="card"><div class="card-icon">🔒</div><h3>Sicher</h3><p>API-Keys nur in .env, nie im Repository.</p></div>
+    <div class="card"><div class="card-icon">🔄</div><h3>Auto-Update</h3><p>Watchtower-Label vorkonfiguriert.</p></div>
+  </div>
 
 </main>
 <footer>

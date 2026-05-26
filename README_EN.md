@@ -23,8 +23,9 @@
 - [What is OpenCode?](#-what-is-opencode)
 - [3 Use Cases](#-3-use-cases)
 - [Requirements](#-requirements)
-- [Installation via Portainer Stack](#-installation-via-portainer-stack)
+- [Installation](#-installation)
 - [Configuration](#-configuration)
+- [Startup Banner](#-startup-banner)
 - [Goal 1: Browser UI](#-goal-1-browser-ui)
 - [Goal 2: Console direct](#-goal-2-console-direct)
 - [Goal 3: Remote API for 9Router](#-goal-3-remote-api-for-9router)
@@ -36,22 +37,6 @@
 ## 🧠 What is OpenCode?
 
 **OpenCode** is an open-source AI coding agent connecting to various AI models (Claude, GPT, Gemini, DeepSeek, local models via Ollama or custom routers like **9Router**).
-
-```
-┌──────────────────────────────────────────┐
-│  🖥️  DietPi / Debian Server              │
-│  ┌────────────────────────────────────┐  │
-│  │  🐳 Docker Container               │  │
-│  │  ┌──────────────────────────────┐  │  │
-│  │  │  🤖 OpenCode (Port 4096)     │  │  │
-│  │  │  🌐 Web-UI in Browser        │  │  │
-│  │  │  💻 Console Alias            │  │  │
-│  │  │  🔌 API Endpoint for 9Router │  │  │
-│  │  └──────────────────────────────┘  │  │
-│  └────────────────────────────────────┘  │
-│  📦 Portainer Stack Manager              │
-└──────────────────────────────────────────┘
-```
 
 ---
 
@@ -78,38 +63,16 @@
 
 ---
 
-## 🚀 Installation via Portainer Stack
-
-### Step 1 – Clone repo
+## 🚀 Installation
 
 ```bash
 git clone https://github.com/jbkunama1/hAI.OpenCodeHAI.git
 cd hAI.OpenCodeHAI
 cp .env.example .env
-nano .env  # Enter API key
-```
-
-### Step 2 – Start stack
-
-```bash
+nano .env
 docker compose up -d
 docker logs -f opencode
 ```
-
-Expected output:
-```
-🚀 Installing OpenCode...
-✅ OpenCode ready!
-🌐 Server running on http://0.0.0.0:4096
-```
-
-### Step 3 – Portainer
-
-1. 📌 **Stacks** → **+ Add Stack**
-2. ✏️ Name: `opencode`
-3. 📋 Paste `docker-compose.yml` content
-4. 🔧 Add environment variables
-5. ✅ **Deploy the stack**
 
 ---
 
@@ -119,11 +82,6 @@ Expected output:
 # 9Router (recommended)
 OPENAI_API_KEY=sk-...
 OPENAI_BASE_URL=https://9router.example.com/v1
-
-# Or direct DeepSeek
-DEEPSEEK_API_KEY=sk-...
-
-# Default model
 OPENCODE_MODEL=deepseek/deepseek-chat
 ```
 
@@ -155,9 +113,35 @@ OPENCODE_MODEL=deepseek/deepseek-chat
 
 ---
 
-## 🌐 Goal 1: Browser UI
+## 🖥️ Startup Banner
 
-After stack start, accessible at:
+After `docker compose up -d` you'll see in the logs:
+
+```
+🚀 Installing OpenCode...
+✅ OpenCode ready!
+
+╔════════════════════════════════════════════════╗
+║  🤖 hAI.OpenCodeHAI - Ready!                  ║
+╠════════════════════════════════════════════════╣
+║  🌐 Browser-UI:                                ║
+║     http://<server-ip>:4096                    ║
+║                                                ║
+║  💻 Console (Alias on host):                   ║
+║     alias opencode="docker exec -it opencode opencode" ║
+║     → then just type: opencode                 ║
+║                                                ║
+║  🔌 9Router API Endpoint:                      ║
+║     http://<server-ip>:4096/v1                 ║
+║                                                ║
+║  🐚 Inside container:                          ║
+║     docker exec -it opencode opencode          ║
+╚════════════════════════════════════════════════╝
+```
+
+---
+
+## 🌐 Goal 1: Browser UI
 
 ```
 http://<server-ip>:4096
@@ -169,13 +153,10 @@ OpenCode serve starts automatically on container start. ✅
 
 ## 💻 Goal 2: Console direct
 
-Set alias once – then just type `opencode`:
-
 ```bash
 echo 'alias opencode="docker exec -it opencode opencode"' >> ~/.bashrc
 source ~/.bashrc
 
-# Now directly usable:
 opencode
 opencode run "Explain this code"
 opencode --version
@@ -202,7 +183,7 @@ API Key:   (any value, e.g. opencode-local)
 | ❌ `opencode: command not found` | Check alias in `.bashrc`, run `source ~/.bashrc` |
 | ❌ TUI won't start | `docker exec -it -e TERM=xterm-256color opencode opencode` |
 | ❌ API key error | Check `config.json`, restart container |
-| ❌ 9Router can't find endpoint | Test URL `http://<ip>:4096/v1` with curl |
+| ❌ 9Router can't find endpoint | Test with `curl http://<ip>:4096/v1` |
 
 ---
 

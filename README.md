@@ -23,9 +23,9 @@
 - [Was ist OpenCode?](#-was-ist-opencode)
 - [3 Nutzungsziele](#-3-nutzungsziele)
 - [Voraussetzungen](#-voraussetzungen)
-- [Projektstruktur](#-projektstruktur)
-- [Installation via Portainer Stack](#-installation-via-portainer-stack)
+- [Installation](#-installation)
 - [Konfiguration](#-konfiguration)
+- [Startup-Banner](#-startup-banner)
 - [Ziel 1: Browser-UI](#-ziel-1-browser-ui)
 - [Ziel 2: Konsole direkt](#-ziel-2-konsole-direkt)
 - [Ziel 3: Remote-API für 9Router](#-ziel-3-remote-api-für-9router)
@@ -37,22 +37,6 @@
 ## 🧠 Was ist OpenCode?
 
 **OpenCode** ist ein quelloffener AI-Coding-Agent, der sich mit verschiedenen KI-Modellen verbindet (Claude, GPT, Gemini, DeepSeek, lokale Modelle via Ollama oder eigene Router wie **9Router**).
-
-```
-┌──────────────────────────────────────────┐
-│  🖥️  DietPi / Debian Server              │
-│  ┌────────────────────────────────────┐  │
-│  │  🐳 Docker Container               │  │
-│  │  ┌──────────────────────────────┐  │  │
-│  │  │  🤖 OpenCode (Port 4096)     │  │  │
-│  │  │  🌐 Web-UI  im Browser       │  │  │
-│  │  │  💻 Konsolen-Alias           │  │  │
-│  │  │  🔌 API-Endpoint für 9Router │  │  │
-│  │  └──────────────────────────────┘  │  │
-│  └────────────────────────────────────┘  │
-│  📦 Portainer Stack Manager              │
-└──────────────────────────────────────────┘
-```
 
 ---
 
@@ -79,72 +63,32 @@
 
 ---
 
-## 📁 Projektstruktur
-
-```
-hAI.OpenCodeHAI/
-├── 📄 README.md              ← Diese Datei (DE)
-├── 📄 README_EN.md           ← English version
-├── 📄 LICENSE                ← MIT Lizenz
-├── 🐳 docker-compose.yml     ← Portainer Stack (Port 4096)
-├── ⚙️  .env.example           ← Konfigurationsvorlage
-├── 🚫 .gitignore
-└── 🌐 docs/
-    └── index.html            ← GitHub Pages
-```
-
----
-
-## 🚀 Installation via Portainer Stack
-
-### Schritt 1 – Repo klonen
+## 🚀 Installation
 
 ```bash
+# 1. Repo klonen
 git clone https://github.com/jbkunama1/hAI.OpenCodeHAI.git
 cd hAI.OpenCodeHAI
+
+# 2. .env anlegen
 cp .env.example .env
 joe .env  # API-Key eintragen
-```
 
-### Schritt 2 – Stack starten
-
-```bash
+# 3. Stack starten
 docker compose up -d
+
+# 4. Logs prüfen
 docker logs -f opencode
 ```
-
-Erwartete Ausgabe:
-```
-🚀 Installing OpenCode...
-✅ OpenCode ready!
-🌐 Server running on http://0.0.0.0:4096
-```
-
-### Schritt 3 – Portainer
-
-1. 📌 **Stacks** → **+ Add Stack**
-2. ✏️ Name: `opencode`
-3. 📋 `docker-compose.yml` Inhalt einfügen
-4. 🔧 Environment Variables eintragen
-5. ✅ **Deploy the stack**
 
 ---
 
 ## ⚙️ Konfiguration
 
-```bash
-joe .env
-```
-
 ```env
 # 9Router (empfohlen)
 OPENAI_API_KEY=sk-...
 OPENAI_BASE_URL=https://9router.example.com/v1
-
-# Oder direkt DeepSeek
-DEEPSEEK_API_KEY=sk-...
-
-# Standard-Modell
 OPENCODE_MODEL=deepseek/deepseek-chat
 ```
 
@@ -181,9 +125,35 @@ joe /var/lib/docker/volumes/opencode_config/_data/config.json
 
 ---
 
-## 🌐 Ziel 1: Browser-UI
+## 🖥️ Startup-Banner
 
-Nach dem Stack-Start erreichbar unter:
+Nach `docker compose up -d` siehst du in den Logs:
+
+```
+🚀 Installing OpenCode...
+✅ OpenCode ready!
+
+╔════════════════════════════════════════════════╗
+║  🤖 hAI.OpenCodeHAI - Ready!                  ║
+╠════════════════════════════════════════════════╣
+║  🌐 Browser-UI:                                ║
+║     http://<server-ip>:4096                    ║
+║                                                ║
+║  💻 Konsole (Alias auf dem Host):              ║
+║     alias opencode="docker exec -it opencode opencode" ║
+║     → dann einfach: opencode                   ║
+║                                                ║
+║  🔌 9Router API-Endpoint:                      ║
+║     http://<server-ip>:4096/v1                 ║
+║                                                ║
+║  🐚 In Container:                              ║
+║     docker exec -it opencode opencode          ║
+╚════════════════════════════════════════════════╝
+```
+
+---
+
+## 🌐 Ziel 1: Browser-UI
 
 ```
 http://<server-ip>:4096
@@ -218,16 +188,6 @@ Base URL:  http://<server-ip>:4096/v1
 API Key:   (beliebig, z.B. opencode-local)
 ```
 
-Oder direkt in der 9Router config:
-
-```json
-{
-  "provider": "opencode",
-  "baseURL": "http://<server-ip>:4096/v1",
-  "apiKey": "opencode-local"
-}
-```
-
 ---
 
 ## 🔧 Troubleshooting
@@ -238,7 +198,7 @@ Oder direkt in der 9Router config:
 | ❌ `opencode: command not found` | Alias in `.bashrc` prüfen, `source ~/.bashrc` |
 | ❌ TUI startet nicht | `docker exec -it -e TERM=xterm-256color opencode opencode` |
 | ❌ API-Key-Fehler | `config.json` prüfen, Container neu starten |
-| ❌ 9Router findet Endpoint nicht | URL `http://<ip>:4096/v1` mit curl testen |
+| ❌ 9Router findet Endpoint nicht | URL mit `curl http://<ip>:4096/v1` testen |
 
 ---
 
