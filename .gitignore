@@ -1,0 +1,27 @@
+# ============================================================
+# 🚫 hAI.OpenCodeHAI - .gitignore
+# ============================================================
+
+# 🔑 Sensible Daten – NIEMALS committen!
+.env
+*.env.local
+*.env.production
+
+# 🐳 Docker Overrides
+docker-compose.override.yml
+
+# 🗂️ OS & Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 📦 Node
+node_modules/
+
+# 📋 Logs
+*.log
+logs/
