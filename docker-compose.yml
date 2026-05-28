@@ -19,7 +19,9 @@ services:
       - 8.8.8.8
       - 1.1.1.1
     volumes:
-      - opencode_projects:/workspace
+      # 📁 Projektverzeichnis: Host-Pfad → Container
+      # Unterordner (Projekte) werden von OpenCode automatisch angelegt
+      - /opt/opencode/projectDir:/workspace
       - opencode_config:/root/.config/opencode
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY:-}
@@ -62,7 +64,6 @@ services:
       - "com.centurylinklabs.watchtower.enable=true"
 
 volumes:
-  opencode_projects:
-    name: opencode_projects
+  # opencode_projects Volume entfernt — jetzt als direkter bind mount auf dem Host
   opencode_config:
     name: opencode_config
