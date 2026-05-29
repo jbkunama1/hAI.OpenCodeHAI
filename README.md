@@ -29,6 +29,7 @@
 - [Ziel 1: Browser-UI](#-ziel-1-browser-ui)
 - [Ziel 2: Konsole direkt](#-ziel-2-konsole-direkt)
 - [Ziel 3: Remote-API für 9Router](#-ziel-3-remote-api-für-9router)
+- [MCP-Setup (Filesystem & GitHub)](#-mcp-setup-filesystem--github)
 - [Troubleshooting](#-troubleshooting)
 - [Lizenz](#-lizenz)
 
@@ -190,6 +191,38 @@ API Key:   (beliebig, z.B. opencode-local)
 
 ---
 
+## 🔗 MCP-Setup (Filesystem & GitHub)
+
+OpenCode unterstützt MCP-Server (Model Context Protocol) für erweiterten Dateisystem- und GitHub-Zugriff direkt im Container.
+
+📄 **Detaillierte Anleitung:** [docs/mcp-setup.md](docs/mcp-setup.md)
+
+### Kurzübersicht
+
+| MCP | Typ | Beschreibung |
+|---|---|---|
+| `filesystem` | local | Dateizugriff auf `/workspace` und Config-Verzeichnis |
+| `github-local` | remote | GitHub-MCP als lokaler HTTP-Server (Port 3001) |
+
+```json
+"mcp": {
+  "filesystem": {
+    "type": "local",
+    "command": ["npx", "-y", "@modelcontextprotocol/server-filesystem", "/workspace"],
+    "enabled": true
+  },
+  "github-local": {
+    "type": "remote",
+    "url": "http://127.0.0.1:3001/mcp",
+    "enabled": true
+  }
+}
+```
+
+> **Hinweis:** Der GitHub-MCP-Copilot-Endpoint ist nicht kompatibel mit OpenCode. Stattdessen GitHub-MCP lokal als HTTP-Server betreiben – Details in [docs/mcp-setup.md](docs/mcp-setup.md).
+
+---
+
 ## 🔧 Troubleshooting
 
 | Problem | Lösung |
@@ -200,6 +233,8 @@ API Key:   (beliebig, z.B. opencode-local)
 | ❌ API-Key-Fehler | `config.json` prüfen, Container neu starten |
 | ❌ 9Router findet Endpoint nicht | URL mit `curl http://<ip>:4096/v1` testen |
 | ❌ DNS-Fehler (EAI_AGAIN) | `dns: [8.8.8.8, 1.1.1.1]` in docker-compose.yml (Tailscale-Workaround) |
+| ❌ MCP Filesystem-Fehler (ENOENT) | Keine Flags übergeben – nur Verzeichnisse als Argumente, siehe [MCP-Setup](docs/mcp-setup.md) |
+| ❌ GitHub-MCP OAuth-Fehler | Copilot-Endpoint nicht kompatibel – lokalen HTTP-Server nutzen, siehe [MCP-Setup](docs/mcp-setup.md) |
 
 ---
 

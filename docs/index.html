@@ -52,6 +52,8 @@
     .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
     .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: border-color 0.2s, transform 0.2s; }
     .card:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .card a { color: var(--accent); text-decoration: none; }
+    .card a:hover { text-decoration: underline; }
     .card-icon { font-size: 2rem; margin-bottom: 12px; }
     .card h3 { font-size: 1rem; font-weight: 600; color: #fff; margin-bottom: 8px; }
     .card p { font-size: 0.9rem; color: var(--muted); }
@@ -82,6 +84,7 @@
   <div class="btn-group">
     <a class="btn btn-primary" href="https://github.com/jbkunama1/hAI.OpenCodeHAI" target="_blank">📦 GitHub Repo</a>
     <a class="btn btn-secondary" href="https://github.com/jbkunama1/hAI.OpenCodeHAI/blob/main/README.md" target="_blank">📖 Dokumentation</a>
+    <a class="btn btn-secondary" href="https://github.com/jbkunama1/hAI.OpenCodeHAI/blob/main/docs/mcp-setup.md" target="_blank">🔗 MCP-Setup</a>
     <a class="btn btn-secondary" href="https://opencode.ai" target="_blank">🌐 opencode.ai</a>
   </div>
 </header>
@@ -152,6 +155,7 @@ source ~/.bashrc</code></pre></div></div>
     <div class="card"><div class="card-icon">🍓</div><h3>DietPi optimiert</h3><p>Schlanker Footprint für ARM-Server.</p></div>
     <div class="card"><div class="card-icon">🔒</div><h3>Sicher</h3><p>API-Keys nur in .env, nie im Repository.</p></div>
     <div class="card"><div class="card-icon">🔄</div><h3>Auto-Update</h3><p>Watchtower-Label vorkonfiguriert.</p></div>
+    <div class="card"><div class="card-icon">🔗</div><h3>MCP-Support</h3><p>Filesystem- & GitHub-MCP direkt im Container. <a href="https://github.com/jbkunama1/hAI.OpenCodeHAI/blob/main/docs/mcp-setup.md">→ Anleitung</a></p></div>
   </div>
 
 </main>
