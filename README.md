@@ -94,6 +94,10 @@ OPENAI_API_KEY=sk-...
 OPENAI_BASE_URL=https://9router.example.com/v1
 OPENCODE_MODEL=deepseek/deepseek-chat
 
+# Server-Passwort für Browser-Zugriff (optional, aber empfohlen)
+# OpenCode nutzt nur ein Passwort – kein Benutzername nötig
+OPENCODE_SERVER_PASSWORD=meinSicheresPasswort
+
 # GitHub MCP (optional – für GitHub-Integration)
 # Token erstellen: https://github.com/settings/tokens
 # Benötigte Scopes: repo, read:org
@@ -101,6 +105,10 @@ GITHUB_TOKEN=github_pat_...
 ```
 
 > ⚠️ **Sicherheit:** Die `.env` Datei niemals committen – sie steht bereits in `.gitignore`.
+
+### Browser-Login
+
+Wenn `OPENCODE_SERVER_PASSWORD` gesetzt ist, fragt OpenCode im Browser **nur nach einem Passwort**. Ein Benutzername ist nicht erforderlich.
 
 ### OpenCode config.json
 
@@ -141,8 +149,6 @@ Nach `docker compose up -d` siehst du in den Logs:
 
 ```
 🚀 Installing OpenCode...
-🔗 Starting GitHub MCP server...
-✅ GitHub MCP started on http://127.0.0.1:3001/mcp
 
 ╔════════════════════════════════════════════════╗
 ║  🤖 hAI.OpenCodeHAI - Ready!                  ║
@@ -160,6 +166,12 @@ Nach `docker compose up -d` siehst du in den Logs:
 ║  🐚 In Container:                              ║
 ║     docker exec -it opencode opencode          ║
 ╚════════════════════════════════════════════════╝
+```
+
+Wenn kein Passwort gesetzt ist, erscheint zusätzlich die Warnung:
+
+```
+Warning: OPENCODE_SERVER_PASSWORD is not set; server is unsecured.
 ```
 
 ---
@@ -207,32 +219,6 @@ OpenCode unterstützt MCP-Server (Model Context Protocol) für erweiterten Datei
 
 📄 **Detaillierte Anleitung:** [docs/mcp-setup.md](docs/mcp-setup.md)
 
-### Autostart
-
-Der GitHub-MCP-Server startet **automatisch** beim Container-Start, wenn `GITHUB_TOKEN` in der `.env` gesetzt ist. Kein manueller Start nötig. ✅
-
-### Kurzübersicht
-
-| MCP | Typ | Beschreibung |
-|---|---|---|
-| `filesystem` | local | Dateizugriff auf `/workspace` und Config-Verzeichnis |
-| `github-local` | remote | GitHub-MCP als lokaler HTTP-Server (Port 3001) |
-
-```json
-"mcp": {
-  "filesystem": {
-    "type": "local",
-    "command": ["npx", "-y", "@modelcontextprotocol/server-filesystem", "/workspace"],
-    "enabled": true
-  },
-  "github-local": {
-    "type": "remote",
-    "url": "http://127.0.0.1:3001/mcp",
-    "enabled": true
-  }
-}
-```
-
 > **Hinweis:** Der GitHub-MCP-Copilot-Endpoint ist nicht kompatibel mit OpenCode. Stattdessen GitHub-MCP lokal als HTTP-Server betreiben – Details in [docs/mcp-setup.md](docs/mcp-setup.md).
 
 ---
@@ -247,9 +233,7 @@ Der GitHub-MCP-Server startet **automatisch** beim Container-Start, wenn `GITHUB
 | ❌ API-Key-Fehler | `config.json` prüfen, Container neu starten |
 | ❌ 9Router findet Endpoint nicht | URL mit `curl http://<ip>:4096/v1` testen |
 | ❌ DNS-Fehler (EAI_AGAIN) | `dns: [8.8.8.8, 1.1.1.1]` in docker-compose.yml (Tailscale-Workaround) |
-| ❌ MCP Filesystem-Fehler (ENOENT) | Keine Flags übergeben – nur Verzeichnisse als Argumente, siehe [MCP-Setup](docs/mcp-setup.md) |
-| ❌ GitHub-MCP OAuth-Fehler | Copilot-Endpoint nicht kompatibel – lokalen HTTP-Server nutzen, siehe [MCP-Setup](docs/mcp-setup.md) |
-| ❌ GitHub-MCP startet nicht | `GITHUB_TOKEN` in `.env` prüfen, Logs: `docker exec opencode cat /workspace/log/github-mcp.err.log` |
+| ❌ Browser ohne Schutz | `OPENCODE_SERVER_PASSWORD` in `.env` setzen und Container neu starten |
 
 ---
 

@@ -124,6 +124,10 @@ OPENAI_API_KEY=sk-...
 OPENAI_BASE_URL=https://9router.example.com/v1
 OPENCODE_MODEL=deepseek/deepseek-chat
 
+# Browser-Passwort (optional, aber empfohlen)
+# Nur Passwort, kein Benutzername nötig
+OPENCODE_SERVER_PASSWORD=meinSicheresPasswort
+
 # GitHub MCP (optional)
 # Token: https://github.com/settings/tokens
 # Scopes: repo, read:org
@@ -131,12 +135,13 @@ GITHUB_TOKEN=github_pat_...</code></pre>
   </div>
   <div class="warning">⚠️ Die <code>.env</code> Datei niemals in Git committen – sie steht bereits in <code>.gitignore</code>.</div>
 
+  <div class="section-title">🛡️ Browser-Schutz</div>
+  <p style="color:var(--muted);margin-bottom:12px">Wenn <code style="background:var(--card);padding:2px 6px;border-radius:4px;color:var(--yellow)">OPENCODE_SERVER_PASSWORD</code> gesetzt ist, fragt OpenCode im Browser nur nach einem Passwort. Ein Benutzername ist nicht erforderlich.</p>
+
   <div class="section-title">🖥️ Startup-Banner</div>
   <p style="color:var(--muted);margin-bottom:12px">Nach <code style="background:var(--card);padding:2px 6px;border-radius:4px;color:var(--green)">docker compose up -d</code> siehst du in den Logs:</p>
   <div class="banner">
     <pre>🚀 Installing OpenCode...
-🔗 Starting GitHub MCP server...
-✅ GitHub MCP started on http://127.0.0.1:3001/mcp
 
 ╔════════════════════════════════════════════════╗
 ║  🤖 hAI.OpenCodeHAI - Ready!                  ║
@@ -153,7 +158,9 @@ GITHUB_TOKEN=github_pat_...</code></pre>
 ║                                                ║
 ║  🐚 In Container:                              ║
 ║     docker exec -it opencode opencode          ║
-╚════════════════════════════════════════════════╝</pre>
+╚════════════════════════════════════════════════╝
+
+Warning: OPENCODE_SERVER_PASSWORD is not set; server is unsecured.</pre>
   </div>
 
   <div class="section-title">🚀 Schnellstart</div>
@@ -162,7 +169,7 @@ cd hAI.OpenCodeHAI && cp .env.example .env</code></pre></div></div>
   <div class="step"><div class="step-num">2</div><div class="step-content"><h4>.env befüllen</h4><pre><code class="block">OPENAI_BASE_URL=https://9router.example.com/v1
 OPENAI_API_KEY=sk-...
 OPENCODE_MODEL=deepseek/deepseek-chat
-GITHUB_TOKEN=github_pat_...  # optional für MCP</code></pre></div></div>
+OPENCODE_SERVER_PASSWORD=meinSicheresPasswort</code></pre></div></div>
   <div class="step"><div class="step-num">3</div><div class="step-content"><h4>Stack starten</h4><pre><code class="block">docker compose up -d && docker logs -f opencode</code></pre></div></div>
   <div class="step"><div class="step-num">4</div><div class="step-content"><h4>Browser öffnen</h4><pre><code class="block">http://&lt;server-ip&gt;:4096</code></pre></div></div>
   <div class="step"><div class="step-num">5</div><div class="step-content"><h4>Konsolen-Alias setzen</h4><pre><code class="block">echo 'alias opencode="docker exec -it opencode opencode"' >> ~/.bashrc
@@ -174,9 +181,9 @@ source ~/.bashrc</code></pre></div></div>
     <div class="card"><div class="card-icon">🆓</div><h3>Kostenlos</h3><p>DeepSeek, Gemini Flash, Qwen – alle mit Free-Tier.</p></div>
     <div class="card"><div class="card-icon">🔀</div><h3>9Router Support</h3><p>Direkte Integration als API-Provider in 9Router.</p></div>
     <div class="card"><div class="card-icon">🍓</div><h3>DietPi optimiert</h3><p>Schlanker Footprint für ARM-Server.</p></div>
-    <div class="card"><div class="card-icon">🔒</div><h3>Sicher</h3><p>API-Keys nur in .env, nie im Repository.</p></div>
+    <div class="card"><div class="card-icon">🔒</div><h3>Sicher</h3><p>Browser-Zugriff optional mit Passwort geschützt.</p></div>
     <div class="card"><div class="card-icon">🔄</div><h3>Auto-Update</h3><p>Watchtower-Label vorkonfiguriert.</p></div>
-    <div class="card"><div class="card-icon">🔗</div><h3>MCP-Support</h3><p>Filesystem- & GitHub-MCP mit Autostart. <a href="https://github.com/jbkunama1/hAI.OpenCodeHAI/blob/main/docs/mcp-setup.md">→ Anleitung</a></p></div>
+    <div class="card"><div class="card-icon">🔗</div><h3>MCP-Support</h3><p>Filesystem- & GitHub-MCP. <a href="https://github.com/jbkunama1/hAI.OpenCodeHAI/blob/main/docs/mcp-setup.md">→ Anleitung</a></p></div>
   </div>
 
 </main>
