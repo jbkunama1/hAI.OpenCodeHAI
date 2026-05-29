@@ -20,7 +20,6 @@ services:
       - 1.1.1.1
     volumes:
       # 📁 Projektverzeichnis: Host-Pfad → Container
-      # Unterordner (Projekte) werden von OpenCode automatisch angelegt
       - /opt/opencode/projectDir:/workspace
       - opencode_config:/root/.config/opencode
     environment:
@@ -31,6 +30,8 @@ services:
       - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY:-}
       - OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-}
       - OPENCODE_MODEL=${OPENCODE_MODEL:-deepseek/deepseek-chat}
+      # 🔑 GitHub-Token für GitHub-MCP (in .env hinterlegen, nie hardcoden)
+      - GITHUB_TOKEN=${GITHUB_TOKEN:-}
       - TERM=xterm-256color
       - COLORTERM=truecolor
     stdin_open: true
@@ -40,6 +41,17 @@ services:
       sh -c '
         echo "🚀 Installing OpenCode..." &&
         npm install -g opencode-ai@latest --quiet &&
+        echo "" &&
+        echo "🔗 Starting GitHub MCP server..." &&
+        mkdir -p /workspace/log &&
+        if [ -n "$GITHUB_TOKEN" ]; then
+          nohup sh -c "npx github-mcp-server-kosta --transport http --http-port 3001 --host 127.0.0.1" \
+            > /workspace/log/github-mcp.out.log 2>/workspace/log/github-mcp.err.log & \
+          sleep 3 &&
+          echo "✅ GitHub MCP started on http://127.0.0.1:3001/mcp" ;
+        else
+          echo "⚠️  GITHUB_TOKEN not set – GitHub MCP skipped" ;
+        fi &&
         echo "" &&
         echo "╔════════════════════════════════════════════════╗" &&
         echo "║  🤖 hAI.OpenCodeHAI - Ready!                  ║" &&
@@ -64,6 +76,5 @@ services:
       - "com.centurylinklabs.watchtower.enable=true"
 
 volumes:
-  # opencode_projects Volume entfernt — jetzt als direkter bind mount auf dem Host
   opencode_config:
     name: opencode_config

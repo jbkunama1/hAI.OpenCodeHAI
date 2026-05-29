@@ -73,7 +73,7 @@ cd hAI.OpenCodeHAI
 
 # 2. .env anlegen
 cp .env.example .env
-joe .env  # API-Key eintragen
+joe .env  # Werte eintragen
 
 # 3. Stack starten
 docker compose up -d
@@ -86,12 +86,21 @@ docker logs -f opencode
 
 ## ⚙️ Konfiguration
 
+### .env Datei
+
 ```env
-# 9Router (empfohlen)
+# AI Provider (mindestens einen eintragen)
 OPENAI_API_KEY=sk-...
 OPENAI_BASE_URL=https://9router.example.com/v1
 OPENCODE_MODEL=deepseek/deepseek-chat
+
+# GitHub MCP (optional – für GitHub-Integration)
+# Token erstellen: https://github.com/settings/tokens
+# Benötigte Scopes: repo, read:org
+GITHUB_TOKEN=github_pat_...
 ```
+
+> ⚠️ **Sicherheit:** Die `.env` Datei niemals committen – sie steht bereits in `.gitignore`.
 
 ### OpenCode config.json
 
@@ -132,7 +141,8 @@ Nach `docker compose up -d` siehst du in den Logs:
 
 ```
 🚀 Installing OpenCode...
-✅ OpenCode ready!
+🔗 Starting GitHub MCP server...
+✅ GitHub MCP started on http://127.0.0.1:3001/mcp
 
 ╔════════════════════════════════════════════════╗
 ║  🤖 hAI.OpenCodeHAI - Ready!                  ║
@@ -197,6 +207,10 @@ OpenCode unterstützt MCP-Server (Model Context Protocol) für erweiterten Datei
 
 📄 **Detaillierte Anleitung:** [docs/mcp-setup.md](docs/mcp-setup.md)
 
+### Autostart
+
+Der GitHub-MCP-Server startet **automatisch** beim Container-Start, wenn `GITHUB_TOKEN` in der `.env` gesetzt ist. Kein manueller Start nötig. ✅
+
 ### Kurzübersicht
 
 | MCP | Typ | Beschreibung |
@@ -235,6 +249,7 @@ OpenCode unterstützt MCP-Server (Model Context Protocol) für erweiterten Datei
 | ❌ DNS-Fehler (EAI_AGAIN) | `dns: [8.8.8.8, 1.1.1.1]` in docker-compose.yml (Tailscale-Workaround) |
 | ❌ MCP Filesystem-Fehler (ENOENT) | Keine Flags übergeben – nur Verzeichnisse als Argumente, siehe [MCP-Setup](docs/mcp-setup.md) |
 | ❌ GitHub-MCP OAuth-Fehler | Copilot-Endpoint nicht kompatibel – lokalen HTTP-Server nutzen, siehe [MCP-Setup](docs/mcp-setup.md) |
+| ❌ GitHub-MCP startet nicht | `GITHUB_TOKEN` in `.env` prüfen, Logs: `docker exec opencode cat /workspace/log/github-mcp.err.log` |
 
 ---
 

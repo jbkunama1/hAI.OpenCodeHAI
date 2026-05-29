@@ -79,12 +79,21 @@ docker logs -f opencode
 
 ## ⚙️ Configuration
 
+### .env file
+
 ```env
-# 9Router (recommended)
+# AI Provider (enter at least one)
 OPENAI_API_KEY=sk-...
 OPENAI_BASE_URL=https://9router.example.com/v1
 OPENCODE_MODEL=deepseek/deepseek-chat
+
+# GitHub MCP (optional – for GitHub integration)
+# Create token: https://github.com/settings/tokens
+# Required scopes: repo, read:org
+GITHUB_TOKEN=github_pat_...
 ```
+
+> ⚠️ **Security:** Never commit the `.env` file – it is already listed in `.gitignore`.
 
 ### OpenCode config.json
 
@@ -120,7 +129,8 @@ After `docker compose up -d` you'll see in the logs:
 
 ```
 🚀 Installing OpenCode...
-✅ OpenCode ready!
+🔗 Starting GitHub MCP server...
+✅ GitHub MCP started on http://127.0.0.1:3001/mcp
 
 ╔════════════════════════════════════════════════╗
 ║  🤖 hAI.OpenCodeHAI - Ready!                  ║
@@ -182,6 +192,10 @@ OpenCode supports MCP servers (Model Context Protocol) for extended filesystem a
 
 📄 **Detailed guide (German):** [docs/mcp-setup.md](docs/mcp-setup.md)
 
+### Autostart
+
+The GitHub-MCP server starts **automatically** on container start if `GITHUB_TOKEN` is set in `.env`. No manual start needed. ✅
+
 ### Quick overview
 
 | MCP | Type | Description |
@@ -219,6 +233,7 @@ OpenCode supports MCP servers (Model Context Protocol) for extended filesystem a
 | ❌ 9Router can't find endpoint | Test with `curl http://<ip>:4096/v1` |
 | ❌ MCP Filesystem error (ENOENT) | Don't pass flags – only directories as args, see [MCP Setup](docs/mcp-setup.md) |
 | ❌ GitHub-MCP OAuth error | Copilot endpoint not compatible – use local HTTP server, see [MCP Setup](docs/mcp-setup.md) |
+| ❌ GitHub-MCP won't start | Check `GITHUB_TOKEN` in `.env`, logs: `docker exec opencode cat /workspace/log/github-mcp.err.log` |
 
 ---
 

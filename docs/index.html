@@ -62,6 +62,10 @@
     .step { display: flex; gap: 16px; margin-bottom: 20px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
     .step-num { background: var(--accent); color: #0d1117; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1rem; flex-shrink: 0; }
     .step-content h4 { color: #fff; margin-bottom: 8px; }
+    .env-box { background: var(--card); border: 1px solid var(--yellow); border-radius: 12px; padding: 20px; margin: 16px 0; }
+    .env-box h4 { color: var(--yellow); margin-bottom: 12px; font-size: 1rem; }
+    .env-box pre { background: #0d1117; border: none; margin: 0; }
+    .warning { background: rgba(247,129,102,0.1); border: 1px solid var(--red); border-radius: 8px; padding: 12px 16px; margin: 12px 0; font-size: 0.9rem; color: var(--red); }
     footer { border-top: 1px solid var(--border); padding: 32px 20px; text-align: center; color: var(--muted); font-size: 0.9rem; }
     footer a { color: var(--accent); text-decoration: none; }
     footer a:hover { text-decoration: underline; }
@@ -112,11 +116,27 @@
     </div>
   </div>
 
+  <div class="section-title">⚙️ .env Konfiguration</div>
+  <div class="env-box">
+    <h4>📄 .env Datei (niemals committen!)</h4>
+    <pre><code class="block"># AI Provider
+OPENAI_API_KEY=sk-...
+OPENAI_BASE_URL=https://9router.example.com/v1
+OPENCODE_MODEL=deepseek/deepseek-chat
+
+# GitHub MCP (optional)
+# Token: https://github.com/settings/tokens
+# Scopes: repo, read:org
+GITHUB_TOKEN=github_pat_...</code></pre>
+  </div>
+  <div class="warning">⚠️ Die <code>.env</code> Datei niemals in Git committen – sie steht bereits in <code>.gitignore</code>.</div>
+
   <div class="section-title">🖥️ Startup-Banner</div>
   <p style="color:var(--muted);margin-bottom:12px">Nach <code style="background:var(--card);padding:2px 6px;border-radius:4px;color:var(--green)">docker compose up -d</code> siehst du in den Logs:</p>
   <div class="banner">
     <pre>🚀 Installing OpenCode...
-✅ OpenCode ready!
+🔗 Starting GitHub MCP server...
+✅ GitHub MCP started on http://127.0.0.1:3001/mcp
 
 ╔════════════════════════════════════════════════╗
 ║  🤖 hAI.OpenCodeHAI - Ready!                  ║
@@ -141,7 +161,8 @@
 cd hAI.OpenCodeHAI && cp .env.example .env</code></pre></div></div>
   <div class="step"><div class="step-num">2</div><div class="step-content"><h4>.env befüllen</h4><pre><code class="block">OPENAI_BASE_URL=https://9router.example.com/v1
 OPENAI_API_KEY=sk-...
-OPENCODE_MODEL=deepseek/deepseek-chat</code></pre></div></div>
+OPENCODE_MODEL=deepseek/deepseek-chat
+GITHUB_TOKEN=github_pat_...  # optional für MCP</code></pre></div></div>
   <div class="step"><div class="step-num">3</div><div class="step-content"><h4>Stack starten</h4><pre><code class="block">docker compose up -d && docker logs -f opencode</code></pre></div></div>
   <div class="step"><div class="step-num">4</div><div class="step-content"><h4>Browser öffnen</h4><pre><code class="block">http://&lt;server-ip&gt;:4096</code></pre></div></div>
   <div class="step"><div class="step-num">5</div><div class="step-content"><h4>Konsolen-Alias setzen</h4><pre><code class="block">echo 'alias opencode="docker exec -it opencode opencode"' >> ~/.bashrc
@@ -155,7 +176,7 @@ source ~/.bashrc</code></pre></div></div>
     <div class="card"><div class="card-icon">🍓</div><h3>DietPi optimiert</h3><p>Schlanker Footprint für ARM-Server.</p></div>
     <div class="card"><div class="card-icon">🔒</div><h3>Sicher</h3><p>API-Keys nur in .env, nie im Repository.</p></div>
     <div class="card"><div class="card-icon">🔄</div><h3>Auto-Update</h3><p>Watchtower-Label vorkonfiguriert.</p></div>
-    <div class="card"><div class="card-icon">🔗</div><h3>MCP-Support</h3><p>Filesystem- & GitHub-MCP direkt im Container. <a href="https://github.com/jbkunama1/hAI.OpenCodeHAI/blob/main/docs/mcp-setup.md">→ Anleitung</a></p></div>
+    <div class="card"><div class="card-icon">🔗</div><h3>MCP-Support</h3><p>Filesystem- & GitHub-MCP mit Autostart. <a href="https://github.com/jbkunama1/hAI.OpenCodeHAI/blob/main/docs/mcp-setup.md">→ Anleitung</a></p></div>
   </div>
 
 </main>
